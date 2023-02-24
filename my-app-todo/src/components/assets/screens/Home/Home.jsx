@@ -2,6 +2,7 @@ import React from "react";
 import TodoItem from "./item/TodoItem";
 import { useState } from "react";
 import CreateTodoField from "./item/CreateTodoField";
+import { useEffect } from "react";
 
 const data = [
   {
@@ -22,33 +23,25 @@ const data = [
 ];
 
 const Home = () => {
-  const [todos, setTodos] = useState(data);
+  const [todos, setTodos] = useState(() => {
+    return JSON.parse(window.localStorage.getItem("todos") || []);
+  });
 
   const changeTodo = (id) => {
     const copy = [...todos];
     const current = copy.find((t) => t._id === id);
     current.isCompleted = !current.isCompleted;
     setTodos(copy);
+    window.localStorage.setItem("todos", JSON.stringify(todos));
   };
 
   const removeTodo = (id) => {
     setTodos([...todos].filter((t) => t._id !== id));
   };
 
-  const addTodo = (title) => {
-    setTodos([
-      {
-        _id: new Date(),
-        title,
-        isCompleted: false,
-      },
-      ...todos,
-    ]);
-  };
-
   return (
     <div className=" text-white w-4/5 mx-auto">
-      <h1 className="text-2x1 font-bold text-center mb-8">Todo for junior</h1>
+      <h1 className="text-2x1 font-bold text-center mb-8">Записник</h1>
       {todos.map((todo) => (
         <TodoItem
           key={todo._id}
@@ -57,7 +50,7 @@ const Home = () => {
           removeTodo={removeTodo}
         />
       ))}
-      <CreateTodoField addTodo={addTodo} />
+      <CreateTodoField setTodos={setTodos} />
     </div>
   );
 };

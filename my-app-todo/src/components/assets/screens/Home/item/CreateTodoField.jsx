@@ -8,6 +8,7 @@ const CreateTodoField = ({ setTodos }) => {
         _id: new Date(),
         title,
         isCompleted: false,
+        time: new Date().toLocaleTimeString(),
       },
       ...prev,
     ]);

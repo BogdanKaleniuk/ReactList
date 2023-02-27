@@ -1,0 +1,8 @@
+.root {
+  height: 80px;
+  font-size: 20px;
+  color: white;
+  background-color: #009999;
+  align-items: center;
+  justify-content: center;
+}
